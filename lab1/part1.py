@@ -16,8 +16,20 @@ logging.basicConfig(
     ]
 )
 
+# metric viewer
+def plot_history(h, *metrics):
+    for metric in metrics:
+        print(f"{metric}: {h.history[metric][-1]:.4f}")
+    figure = plt.figure(figsize=(5 * len(metrics), 3))
+    for i, metric in enumerate(metrics, 1):
+        ax = figure.add_subplot(1, len(metrics), i)
+        ax.xaxis.get_major_locator().set_params(integer=True)
+        plt.title(metric)
+        plt.plot(h.history[metric], '-')
+    plt.show()
+
 # Change the current working directory
-os.chdir('.\\lab1')
+os.chdir('./lab1')
 
 # собираем персептрон
 model = keras.models.Sequential()
@@ -29,21 +41,24 @@ model.add(keras.layers.Dense(
     bias_initializer=keras.initializers.Zeros()
 ))
 
-model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+model.compile(loss='mse', optimizer='adam', metrics=['mae', 'accuracy'])
 model.summary()
 
 
 print("\ninitiating entering points")
-# variation 4
-points = np.array([[-4,-3.6], [-3.4, 1.2], [0.7, -4.5], [4.3, 2.2], [2.3, -4.4], [3.6, 4.3]])
-labels = np.array([0, 1, 0, 0, 0, 1])
+# variation 15
+points = np.array([[-4.1,-2.4], [-1.7, 1.7], [-3.7, 2.2], [-4, 1.5], [-0.1, 2.7], [2.1, 4]])
+labels = np.array([1, 1, 0, 0, 1, 1])
 print(f"points = {points}\nlabels = {labels}")
 
 # logging history into file
+epochs = 1000
 console_out = sys.stdout
 log_file = open("history.log", "w")
 sys.stdout = log_file # redirect output to file
-model.fit(x=points, y=labels, batch_size=1, epochs=100) # training model
+history = model.fit(x=points, y=labels, batch_size=1, epochs=epochs) # training model
+print(history)
+plot_history(history, 'accuracy', 'mae')
 sys.stdout = console_out # back to console out
 log_file.close()
 
@@ -57,14 +72,11 @@ logging.info(f"w1 = {w1}, w2 = {w2}")
 logging.info(f"b = {b}")
 
 # выведем разделяющую прямую
-def liner_func(x, w1, w2, b):
-    return -x*w1/w2 - b*w2
-
-def prepare(xmin, xmax, w1,w2,b):
-    X = [xmin, xmax]
-    Y = [liner_func(xmin,w1,w2,b), liner_func(xmax,w1,w2,b)]
-    return X,Y
-line_x, line_y = prepare(np.amin(points[:, 0]), np.amax(points[:, 0]),w1,w2,b)
+def plot_line(a, b, c):
+    xlim, ylim = plt.xlim(), plt.ylim()
+    plt.axline((-c / a, 0), slope=-a/b)
+    plt.xlim(xlim)
+    plt.ylim(ylim)
 
 # поместим точки в массив, распределив по классам
 oneClass = []
@@ -80,5 +92,5 @@ twoClass = np.array(twoClass)
 # рисуем график
 plt.scatter(oneClass[:,0], oneClass[:,1], color="b")
 plt.scatter(twoClass[:,0], twoClass[:,1], color="r")
-plt.plot(line_x, line_y, color="orange")
+plot_line(w1,w2, b)
 plt.show()
