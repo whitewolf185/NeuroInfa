@@ -1,7 +1,6 @@
 import numpy as np
 from tensorflow import keras
 import plotly.express as px
-import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import os
@@ -34,12 +33,12 @@ def plot_history(h, *metrics):
     figure.show()
 
 # Change the current working directory
-os.chdir('./lab2')
+# os.chdir('./lab2')
 
 # configurations
 window = 12
 t = np.arange(1,6,0.025)
-signal = lambda t: np.cos(t**2 - 10*t + 3)
+signal = lambda t: np.cos(t**2 - 10* + 3)
 noize_signal = lambda t: np.cos(t**2 - 10*t + 6)/5
 
 data = noize_signal(t)

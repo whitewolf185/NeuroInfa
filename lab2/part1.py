@@ -1,7 +1,6 @@
 import numpy as np
 from tensorflow import keras
 import plotly.express as px
-import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import os
@@ -34,7 +33,7 @@ def plot_history(h, *metrics):
     figure.show()
 
 # Change the current working directory
-os.chdir('./lab2')
+# os.chdir('./lab2')
 
 # configurations
 window = 5
