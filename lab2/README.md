@@ -41,27 +41,36 @@ model.compile(keras.optimizers.SGD(0.01), 'mse', ['mse'])
 hist = model.fit(data, target, batch_size=1, epochs=50, verbose=0, shuffle=True)
 ```
 
+Метрики
+
+![metrics_part1](imgs/metrics_part1.png)
+
+Результаты
+
+![result_part1](imgs/result_part1.png)
+
 ### Part 2
-Инициализация персептрона 
+Инициализация модели для подавления шума
 ```python
-model = keras.models.Sequential()
-model.add(keras.layers.Dense(
-    2, # output space
-    activation='sigmoid', # Activation function to use
-    input_dim=2, # у персептрона 2 входных нейрона
-    kernel_initializer=keras.initializers.RandomNormal(stddev=0.5,mean=0.0),
-    bias_initializer=keras.initializers.Zeros()
-))
+# configurating model
+model = keras.models.Sequential([
+    keras.layers.Dense(1, input_dim=window, activation='linear')
+])
+model.compile(keras.optimizers.SGD(0.01), 'mse', ['mse'])
+hist = model.fit(data, target, batch_size=1, epochs=50, verbose=0, shuffle=True)
 ```
+
+Шум и сигнал
+
+![metrics_part2](imgs/signal_noize.png)
 
 Метрики
 
 ![metrics_part2](imgs/metrics_part2.png)
 
-Результат обучения и разделяющие линии
+Результат обучения и показатели ошибки
 
-![part2](imgs/part2.png)
+![part2](imgs/result_part2.png)
 
 ## Вывод
-В ходе выполнения первой лабораторной работы я освежил свои знания про перцептрон Розенблата. Данная примитивная сеть помогает понять как работают нейроны в более сложных сетях.
-На этапе выполнения работы я столкнулся с трудностями получения правильного ответа, но увеличение количества эпох стало давать мне хороший результат.
+В ходе выполнения первой лабораторной работы я научился подавлять шум сигнала при помощи элементарного персептрона. Также научился путем аппроксимировать функцию.
