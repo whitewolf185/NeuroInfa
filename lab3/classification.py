@@ -54,7 +54,7 @@ p3 = 1;               alpha3 = 0;      x03 = 0;    y03 = -0.8
 t = np.arange(0, 2 * pi, 0.025)
 ellipse1 = ellipse(t, a1, b1, x01, y01, alpha1)
 ellipse2 = ellipse(t, a2, b2, x02, y02, alpha2)
-parabola3 = parabola(t[:len(t)//4], p3, x03, y03, alpha3) #! сделать пометку в отчете почему тут //4
+parabola3 = parabola(t[:len(t)//4], p3, x03, y03, alpha3)
 
 figures = pd.DataFrame({
     "y": ellipse1[:, 0],

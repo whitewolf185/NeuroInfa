@@ -133,12 +133,14 @@ train_data, test_data, train_labels, test_labels = train_test_split(data, labels
 # configuration model
 model = keras.models.Sequential([
     RBFLayer(16, input_dim=2),
-    keras.layers.Dense(20, activation='ReLU'),
+    keras.layers.Dense(7, activation='tanh'),
+    keras.layers.Dense(16, activation='tanh'),
+    keras.layers.Dense(5, activation='tanh'),
     keras.layers.Dense(3, activation='sigmoid')
 ])
-model.compile(keras.optimizers.Adam(0.01), 'mse', ['accuracy'])
+model.compile(keras.optimizers.Adam(3e-4), 'bce', ['accuracy'])
 
-hist = model.fit(train_data, train_labels, validation_data=(test_data, test_labels), batch_size=15, epochs=400, verbose=0)
+hist = model.fit(train_data, train_labels, validation_data=(test_data, test_labels), batch_size=15, epochs=1000, verbose=0)
 
 plot_history(hist, 'loss', 'accuracy', 'val_accuracy')
 

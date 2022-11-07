@@ -44,6 +44,7 @@ px.scatter(df, x="train_data", y="train_labels", title="Функция").show()
 model = keras.models.Sequential([
     keras.layers.Dense(50, input_dim=1, activation='tanh'),
     keras.layers.Dense(100, activation='tanh'),
+    keras.layers.Dense(15, activation='tanh'),
     keras.layers.Dense(1, activation='linear')
 ])
 model.compile(keras.optimizers.Adam(0.001), 'mse', ['mae'])
