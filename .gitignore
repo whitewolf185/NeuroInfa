@@ -1,3 +1,8 @@
 history*.log
 *_test*
 Lecture*
+*.html
+*.pkl
+*.psd
+
+cifar*
